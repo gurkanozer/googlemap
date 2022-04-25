@@ -30,7 +30,7 @@ const Sidebar = ({ isActive }) => {
             to="map"
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
-            Map
+            Add New Marker
           </NavLink>
         </SidebarLinkItem>
       </SidebarLinks>
