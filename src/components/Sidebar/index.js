@@ -5,34 +5,20 @@ import { NavLink } from "react-router-dom";
 const activeStyle = {
   textDecoration: "underline",
 };
-const Sidebar = ({ isActive }) => {
+const Sidebar = ({ isActive, links }) => {
   return (
     <SidebarContainer className={isActive ? "active" : ""}>
       <SidebarLinks>
-        <SidebarLinkItem>
-          <NavLink
-            to="/"
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            Home
-          </NavLink>
-        </SidebarLinkItem>
-        <SidebarLinkItem>
-          <NavLink
-            to="charts"
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            Charts
-          </NavLink>
-        </SidebarLinkItem>
-        <SidebarLinkItem>
-          <NavLink
-            to="map"
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            Add New Marker
-          </NavLink>
-        </SidebarLinkItem>
+        {links.map((link, index) => (
+          <SidebarLinkItem key={index}>
+            <NavLink
+              to={link.href}
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              {link.label}
+            </NavLink>
+          </SidebarLinkItem>
+        ))}
       </SidebarLinks>
     </SidebarContainer>
   );

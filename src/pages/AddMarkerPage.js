@@ -1,6 +1,6 @@
 import React from "react";
 import { Map } from "../components";
-const MapPage = () => {
+const AddMarkerPage = () => {
   return (
     <div>
       <Map canAddItem={true} />
@@ -8,4 +8,4 @@ const MapPage = () => {
   );
 };
 
-export default MapPage;
+export default AddMarkerPage;

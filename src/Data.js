@@ -27,19 +27,19 @@ export const CostumerData = [
     id: 5,
     gain: 4300,
     lost: 234,
-    month: "May ",
+    month: "May",
   },
   {
     id: 6,
     gain: 6300,
     lost: 124,
-    month: "Jun ",
+    month: "Jun",
   },
   {
     id: 7,
     gain: 3000,
-    lost: 10,
-    month: "Jul ",
+    lost: 1090,
+    month: "Jul",
   },
 ];
 

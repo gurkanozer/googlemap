@@ -6,7 +6,10 @@ import {
   Title,
   ButtonGroup,
 } from "./style";
-import { PieChart, BarChart, RadioButton } from "../index";
+import RadioButton from "../RadioButton";
+import PieChart from "./PieChart";
+import BarChart from "./BarChart";
+import LineChart from "./LineChart";
 
 const options = {
   responsive: true,
@@ -39,7 +42,7 @@ const chartSettings = {
   borderWidth: 1,
 };
 
-const Charts = ({ labels, label, data }) => {
+const Charts = ({ labels, label, name, data }) => {
   /*---------------------State */
   /* eslint-disable no-unused-vars */
   const [chartData, setchartData] = useState({
@@ -64,25 +67,36 @@ const Charts = ({ labels, label, data }) => {
         <ButtonGroup>
           <RadioButton
             label="Bar"
-            name="chart"
+            name={name}
             value="bar"
             onChange={(e) => hanldeOnChange(e)}
             checked={chartType === "bar" ? true : false}
           />
           <RadioButton
             label="Pie"
-            name="chart"
+            name={name}
             value="pie"
             onChange={(e) => hanldeOnChange(e)}
             checked={chartType === "pie" ? true : false}
           />
+          <RadioButton
+            label="Line"
+            name={name}
+            value="line"
+            onChange={(e) => hanldeOnChange(e)}
+            checked={chartType === "line" ? true : false}
+          />
         </ButtonGroup>
       </ChartsHeader>
       <ChartsBody>
-        {chartType === "pie" ? (
+        {chartType === "pie" && (
           <PieChart chartData={chartData} options={options} />
-        ) : (
+        )}
+        {chartType === "bar" && (
           <BarChart chartData={chartData} options={options} />
+        )}
+        {chartType === "line" && (
+          <LineChart chartData={chartData} options={options} />
         )}
       </ChartsBody>
     </ChartsContainer>

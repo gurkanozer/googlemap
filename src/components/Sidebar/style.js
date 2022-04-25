@@ -11,7 +11,6 @@ export const SidebarContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   border-right: 1px solid ${({ theme }) => theme.colors.gray};
   @media (min-width: 768px) {
-    position: relative;
     left: 0;
   }
   &.active {

@@ -14,7 +14,29 @@ const useMarkers = () => {
   );
   const [selected, setSelected] = useState(null);
 
-  const handleMapClick = useCallback((e) => {
+  const addNewMarker = (e) => {
+    let newMarkers = JSON.parse(localStorage.getItem("markers")) || [];
+    let newID = uuidv4();
+    localStorage.setItem(
+      "markers",
+      JSON.stringify([
+        ...newMarkers,
+        { id: newID, lat: Number(e.lat), lng: Number(e.lng), charge: 100 },
+      ])
+    );
+    setMarkers((prev) => [
+      ...prev,
+      {
+        id: newID,
+        lat: Number(e.lat),
+        lng: Number(e.lng),
+        charge: 100,
+      },
+    ]);
+    window.location.reload(false);
+  };
+  const handleMapClick = useCallback((e, action) => {
+    console.log("Action", action);
     let newMarkers = JSON.parse(localStorage.getItem("markers")) || [];
     let newID = uuidv4();
     localStorage.setItem(
@@ -35,10 +57,20 @@ const useMarkers = () => {
     ]);
   }, []);
 
-  const handleSelectedMarker = (marker) => {
-    setSelected(marker);
+  const handleSelectedMarker = (marker, isRemove) => {
+    if (!isRemove) {
+      let newMarkers = markers.filter((m) => m.id !== marker.id);
+      localStorage.setItem("markers", JSON.stringify([...newMarkers]));
+      setMarkers(newMarkers);
+    } else setSelected(marker);
   };
-  return { markers, selected, handleMapClick, handleSelectedMarker };
+  return {
+    markers,
+    selected,
+    handleMapClick,
+    addNewMarker,
+    handleSelectedMarker,
+  };
 };
 
 export default useMarkers;
