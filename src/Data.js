@@ -43,41 +43,115 @@ export const CostumerData = [
   },
 ];
 
-export const scooterData = [
-  {
-    id: 1,
-    charge: 10,
-    lat: 39.92105005807758,
-    lng: 32.85366330008493,
-  },
-  {
-    id: 2,
-    charge: 30,
-    lat: 39.92053627397012,
-    lng: 32.85377577300819,
-  },
-  {
-    id: 3,
-    charge: 12,
-    lat: 39.921383785883826,
-    lng: 32.85730965044647,
-  },
-  {
-    id: 4,
-    charge: 43,
-    lat: 39.92636977754285,
-    lng: 32.855759416634385,
-  },
-  {
-    id: 5,
-    charge: 87,
-    lat: 39.928657017944275,
-    lng: 32.8554214582985,
-  },
-  {
-    id: 6,
-    charge: 100,
-    lat: 39.93315092263212,
-    lng: 32.85967366641481,
-  },
-];
+export const scooterData = {
+  result: [
+    {
+      uid: "H1",
+      location: {
+        longitude: 39.97883820768034,
+        latitude: 32.736199612047955,
+      },
+      state: "standby",
+      battery: 60,
+    },
+    {
+      uid: "H2",
+      location: {
+        longitude: 39.99113731546379,
+        latitude: 32.65205277993861,
+      },
+      state: "standby",
+      battery: 90,
+    },
+    {
+      uid: "Z1",
+      location: {
+        longitude: 39.97887486687342,
+        latitude: 32.736020099582,
+      },
+      state: "standby",
+      battery: 50,
+    },
+    {
+      uid: "Z2",
+      location: {
+        longitude: 39.9791,
+        latitude: 32.735,
+      },
+      state: "standby",
+      battery: 55,
+    },
+    {
+      uid: "Z3",
+      location: {
+        longitude: 39.9795,
+        latitude: 32.7367,
+      },
+      state: "standby",
+      battery: 55,
+    },
+    {
+      uid: "Z4",
+      location: {
+        longitude: 39.97978671200163,
+        latitude: 32.73579688848393,
+      },
+      state: "standby",
+      battery: 55,
+    },
+    {
+      uid: "Z5",
+      location: {
+        longitude: 39.979999003328466,
+        latitude: 32.73916810846625,
+      },
+      state: "standby",
+      battery: 75,
+    },
+    {
+      uid: "Z6",
+      location: {
+        longitude: 39.97954106148498,
+        latitude: 32.73280816504792,
+      },
+      state: "standby",
+      battery: 82,
+    },
+    {
+      uid: "Z7",
+      location: {
+        longitude: 39.98077641753407,
+        latitude: 32.736934050738746,
+      },
+      state: "standby",
+      battery: 82,
+    },
+    {
+      uid: "Z8",
+      location: {
+        longitude: 39.981094075941336,
+        latitude: 32.74093728478953,
+      },
+      state: "standby",
+      battery: 40,
+    },
+    {
+      uid: "Z9",
+      location: {
+        longitude: 39.97838492398993,
+        latitude: 32.745497356324215,
+      },
+      state: "standby",
+      battery: 35,
+    },
+    {
+      uid: "Z10",
+      location: {
+        longitude: 39.988980885565375,
+        latitude: 32.66296578092358,
+      },
+      state: "standby",
+      battery: 35,
+    },
+  ],
+};

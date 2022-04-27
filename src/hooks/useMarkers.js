@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 
 const useMarkers = () => {
   const setMarkersWithLocal = () => {
-    localStorage.setItem("markers", JSON.stringify(scooterData));
-    return scooterData;
+    localStorage.setItem("markers", JSON.stringify(scooterData.result));
+    return scooterData.result;
   };
   const [markers, setMarkers] = useState(
     localStorage.getItem("markers")
@@ -14,52 +14,41 @@ const useMarkers = () => {
   );
   const [selected, setSelected] = useState(null);
 
-  const addNewMarker = (e) => {
-    let newMarkers = JSON.parse(localStorage.getItem("markers")) || [];
-    let newID = uuidv4();
-    localStorage.setItem(
-      "markers",
-      JSON.stringify([
-        ...newMarkers,
-        { id: newID, lat: Number(e.lat), lng: Number(e.lng), charge: 100 },
-      ])
-    );
-    setMarkers((prev) => [
-      ...prev,
-      {
-        id: newID,
-        lat: Number(e.lat),
-        lng: Number(e.lng),
-        charge: 100,
-      },
-    ]);
-    window.location.reload(false);
-  };
   const handleMapClick = useCallback((e, action) => {
-    console.log("Action", action);
     let newMarkers = JSON.parse(localStorage.getItem("markers")) || [];
     let newID = uuidv4();
     localStorage.setItem(
       "markers",
       JSON.stringify([
         ...newMarkers,
-        { id: newID, lat: e.latLng.lat(), lng: e.latLng.lng(), charge: 100 },
+        {
+          uid: newID,
+          location: {
+            longitude: e.latLng.lng(),
+            latitude: e.latLng.lat(),
+          },
+          state: "standby",
+          battery: 100,
+        },
       ])
     );
     setMarkers((prev) => [
       ...prev,
       {
-        id: newID,
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-        charge: 100,
+        uid: newID,
+        location: {
+          longitude: e.latLng.lng(),
+          latitude: e.latLng.lat(),
+        },
+        state: "standby",
+        battery: 100,
       },
     ]);
   }, []);
 
   const handleSelectedMarker = (marker, isRemove) => {
     if (!isRemove) {
-      let newMarkers = markers.filter((m) => m.id !== marker.id);
+      let newMarkers = markers.filter((m) => m.uid !== marker.uid);
       localStorage.setItem("markers", JSON.stringify([...newMarkers]));
       setMarkers(newMarkers);
     } else setSelected(marker);
@@ -68,7 +57,6 @@ const useMarkers = () => {
     markers,
     selected,
     handleMapClick,
-    addNewMarker,
     handleSelectedMarker,
   };
 };

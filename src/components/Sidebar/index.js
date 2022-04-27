@@ -1,22 +1,23 @@
 import React from "react";
-import { SidebarContainer, SidebarLinks, SidebarLinkItem } from "./style";
-import { NavLink } from "react-router-dom";
+import {
+  SidebarContainer,
+  SidebarLinks,
+  SidebarLinkItem,
+  SidebarLink,
+} from "./style";
 
-const activeStyle = {
-  textDecoration: "underline",
-};
 const Sidebar = ({ isActive, links }) => {
   return (
     <SidebarContainer className={isActive ? "active" : ""}>
       <SidebarLinks>
         {links.map((link, index) => (
           <SidebarLinkItem key={index}>
-            <NavLink
+            <SidebarLink
               to={link.href}
-              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              className={({ isActive }) => (isActive ? "active" : "")}
             >
               {link.label}
-            </NavLink>
+            </SidebarLink>
           </SidebarLinkItem>
         ))}
       </SidebarLinks>

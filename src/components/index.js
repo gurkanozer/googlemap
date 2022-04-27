@@ -4,3 +4,4 @@ export { default as Dashboard } from "./Dashborad";
 export { default as Charts } from "./Charts";
 export { default as RadioButton } from "./RadioButton";
 export { default as Map } from "./Map";
+export { default as List } from "./List";

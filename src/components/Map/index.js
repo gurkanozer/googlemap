@@ -12,7 +12,13 @@ import {
   PanText,
   Strong,
   ActionContainer,
-  Button,
+  ActionButton,
+  ItemsListContainer,
+  ItemsList,
+  Item,
+  ItemButton,
+  ItemToggleButton,
+  InfoContainer,
 } from "./style";
 /**------------------CONSTANTS */
 const mapContainerStyle = {
@@ -20,8 +26,10 @@ const mapContainerStyle = {
   height: "500px",
 };
 const center = {
-  lat: 39.920561,
-  lng: 32.85388,
+  // lat: 39.920561,
+  // lng: 32.85388,
+  lng: 39.97883820768034,
+  lat: 32.736199612047955,
 };
 const options = {
   styles: mapStyles,
@@ -33,44 +41,82 @@ const Map = ({ canAddItem = false }) => {
     useMarkers();
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBs4U5398tZasr8I8TK14Thpf9C-3Nn_po",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
+  const [centerCoords, setCenterCoords] = useState(center);
+  const [isItemListActive, setIsItemListActive] = useState(false);
   const [action, setAction] = useState(true); //TRUE is ADD Action and FALSE is REMOVE Action
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
+
+  // const onMapLoad = useCallback(function callback(map) {
+  //   const bounds = new window.google.maps.LatLngBounds();
+  //   map.fitBounds(bounds);
+  //   mapRef.current = map;
+  // }, []);
+
   /***----------------HANDLE ADD AND REMOVE ACTIONS */
   const handleMapOnClick = (e) => {
     if (canAddItem) {
       if (action) handleMapClick(e);
     }
   };
+  const handleMarkerOnClick = (e) => {
+    handleSelectedMarker(e, action);
+    setCenterCoords({ lat: e.location.latitude, lng: e.location.longitude });
+  };
+  const handleItemOnClick = (e) => {
+    handleSelectedMarker(e, true);
+    setCenterCoords({ lat: e.location.latitude, lng: e.location.longitude });
+  };
+  const handleToggleItemList = () => {
+    setIsItemListActive((prev) => !prev);
+  };
   return isLoaded ? (
     <MapContainer>
       {/*---------------------------- ADD AND REMOVE ACTIONS */}
       {canAddItem ? (
         <ActionContainer>
-          <Button
+          <ActionButton
             className={action ? "active" : ""}
             onClick={() => setAction(true)}
           >
             Add
-          </Button>
-          <Button
+          </ActionButton>
+          <ActionButton
             className={!action ? "active" : ""}
             onClick={() => setAction(false)}
           >
             Remove
-          </Button>
+          </ActionButton>
         </ActionContainer>
       ) : (
         <></>
       )}
+      {/*-----------------------------------ITEMS LIST */}
+      <ItemToggleButton onClick={() => handleToggleItemList()}>
+        Scooters
+      </ItemToggleButton>
+      <ItemsListContainer className={isItemListActive ? "active" : ""}>
+        <ItemsList>
+          {markers?.map((marker, index) => (
+            <Item key={index}>
+              <ItemButton
+                onClick={() => handleItemOnClick(marker)}
+                className={marker.uid === selected?.uid ? "active" : ""}
+              >
+                {marker.uid}
+              </ItemButton>
+            </Item>
+          ))}
+        </ItemsList>
+      </ItemsListContainer>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={14}
-        center={center}
+        zoom={8}
+        center={centerCoords}
         options={options}
         onClick={(e) => handleMapOnClick(e)}
         onLoad={onMapLoad}
@@ -79,28 +125,38 @@ const Map = ({ canAddItem = false }) => {
         {markers?.map((marker, index) => (
           <Marker
             key={index}
-            position={{ lat: marker.lat, lng: marker.lng }}
+            position={{
+              lat: marker.location.latitude,
+              lng: marker.location.longitude,
+            }}
             icon={{
               url: `${process.env.PUBLIC_URL}/scooter.svg`,
               scaledSize: new window.google.maps.Size(30, 30),
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
             }}
-            onClick={() => handleSelectedMarker(marker, action)}
+            onClick={() => handleMarkerOnClick(marker)}
           />
         ))}
         {/*-------------------- ADD POPUP ACTION TO MAP */}
         {selected ? (
           <InfoWindow
-            position={{ lat: selected.lat, lng: selected.lng }}
+            position={{
+              lat: selected.location.latitude,
+              lng: selected.location.longitude,
+            }}
             onCloseClick={() => handleSelectedMarker(null, action)}
           >
-            <PanText>
-              Şarj Kapasitesi{" "}
-              <Strong color={selected.charge > 60 ? "green" : "red "}>
-                {selected.charge}
-              </Strong>
-            </PanText>
+            <InfoContainer>
+              <PanText>{selected.uid}</PanText>
+              <PanText>State: {selected.state}</PanText>
+              <PanText>
+                Battery{" "}
+                <Strong color={selected.battery > 60 ? "green" : "red "}>
+                  {selected.battery}
+                </Strong>
+              </PanText>
+            </InfoContainer>
           </InfoWindow>
         ) : null}
       </GoogleMap>
