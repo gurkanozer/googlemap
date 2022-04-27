@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: `https://anka-skuter.herokuapp.com/api`,
+  baseURL: process.env.REACT_APP_SCOOTERS_API,
   headers: [],
 });
-
-export const getScooterData = () => {
-  return API.get("/scooters");
+export const getData = (from) => {
+  return API.get(`/${from}`);
 };
